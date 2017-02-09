@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Walmart API demo app</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="app.css">
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Walmart API demo app</h1>
+    </div>
+    <div class="row" ng-controller="searchItemController">
+      <div class="col-md-12">
+        <form ng-submit="itemsearch()" class="form-inline">
+          <div class="form-group">Keyword: <input type="text" name="keyword" ng-model="keyword" class="form-control" />
+          <input type="submit" name="Search" value="Search" class="btn btn-default" />
+          <span ng-show="loader.loading" ng-bind="status"></span>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-12 radio">
+        Sort by:
+        <label class="checkbox-inline"><input ng-model="sorting" type="radio" name="sorting" value="itemId" checked="checked" /> Default</label>
+        <label class="checkbox-inline"><input ng-model="sorting" type="radio" name="sorting" value="salePrice" /> Price</label>
+        <label class="checkbox-inline"><input ng-model="sorting" type="radio" name="sorting" value="customerRating" />  Customer rating</label>
+        <label class="checkbox-inline"><input ng-model="sorting" type="radio" name="sorting" value="numReviews" /> Number of reviews</label>
+      </div>
+      <div class="col-md-12 radio">
+        Available Online:
+        <label class="checkbox-inline"><input ng-model="showOnly.availableOnline" type="radio" name="showAvailableOnline" value="true" /> Yes</label>
+        <label class="checkbox-inline"><input ng-model="showOnly.availableOnline" type="radio" name="showAvailableOnline" value="" checked="checked" /> No</label>
+      </div>
+      <div class="col-md-12">
+        <table class="table table-striped table-responsive">
+          <tr>
+            <td>Image</td>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Rating</td>
+            <td>Reviews</td>
+            <td>Description</td>
+            <td>Available</td>
+          </tr>
+          <tr ng-repeat="item in result.items | orderBy:sorting | filter:showOnly:availableOnline">
+            <td><img ng-src="{{item.thumbnailImage}}" /></td>
+            <td><span ng-bind="item.name"></span></td>
+            <td><span ng-bind="item.salePrice"></span></td>
+            <td><span ng-bind="item.customerRating"></span></td>
+            <td><span ng-bind="item.numReviews"></span></td>
+            <td><span ng-bind="item.shortDescription"></span></td>
+            <td><span ng-bind="item.availableOnline"></span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
